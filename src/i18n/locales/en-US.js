@@ -243,6 +243,7 @@ export default {
       sortByCreateDate: "By create date",
       markAsReadOnScroll: "Mark as read on scroll",
       showUnreadByDefault: "Show unread articles by default",
+      showUnreadByDefaultDescription: "Refresh the page for changes to take effect",
     },
     appearance: {
       title: "Appearance",

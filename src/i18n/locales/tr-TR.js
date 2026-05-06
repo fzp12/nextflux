@@ -243,6 +243,7 @@ export default {
       sortByCreateDate: "Oluşturma tarihine göre",
       markAsReadOnScroll: "Kaydırırken okundu olarak işaretle",
       showUnreadByDefault: "Varsayılan olarak okunmamış makaleleri göster",
+      showUnreadByDefaultDescription: "Değişikliklerin geçerli olması için sayfayı yenileyin",
     },
     appearance: {
       title: "Görünüm",

@@ -7,11 +7,31 @@ import {
   Slider,
   Switch,
   Tabs,
+  Tooltip,
 } from "@heroui/react";
 
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, Info } from "lucide-react";
 
 const bgColor = "bg-default/60 dark:bg-default/30";
+
+const DescriptionTip = ({ description }) => {
+  if (!description) return null;
+  return (
+    <Tooltip delay={0}>
+      <Button
+        isIconOnly
+        variant="ghost"
+        size="sm"
+        className="size-5 min-w-5 p-0 bg-transparent hover:bg-transparent border-none shadow-none"
+      >
+        <Info className="size-3.5 text-muted opacity-60 shrink-0" />
+      </Button>
+      <Tooltip.Content>
+        <p>{description}</p>
+      </Tooltip.Content>
+    </Tooltip>
+  );
+};
 
 export const ItemWrapper = ({ title, children }) => {
   return (
@@ -30,6 +50,7 @@ export const SliderItem = ({
   max,
   min,
   step,
+  description,
 }) => {
   return (
     <div className={`grid gap-2 ${bgColor} px-2.5 py-2`}>
@@ -44,7 +65,10 @@ export const SliderItem = ({
           minValue={min}
           step={step}
         >
-          <div className="text-sm text-foreground line-clamp-1">{label}</div>
+          <div className="flex items-center gap-1">
+            <div className="text-sm text-foreground line-clamp-1">{label}</div>
+            <DescriptionTip description={description} />
+          </div>
           <Slider.Output className="text-muted" />
           <Slider.Track className="h-1.5 mt-0.5">
             <Slider.Fill />
@@ -62,6 +86,7 @@ export const SwitchItem = ({
   settingName,
   settingValue,
   disabled = false,
+  description,
 }) => {
   return (
     <div
@@ -69,7 +94,10 @@ export const SwitchItem = ({
     >
       <div className="flex items-center gap-2">
         {icon}
-        <div className="text-sm text-foreground line-clamp-1">{label}</div>
+        <div className="flex items-center gap-1">
+          <div className="text-sm text-foreground line-clamp-1">{label}</div>
+          <DescriptionTip description={description} />
+        </div>
       </div>
       <Switch
         size="lg"
@@ -85,14 +113,17 @@ export const SwitchItem = ({
   );
 };
 
-export function SelItem({ label, icon, settingName, settingValue, options }) {
+export function SelItem({ label, icon, settingName, settingValue, options, description }) {
   return (
     <div
       className={`flex justify-between items-center gap-2 ${bgColor} px-2.5 py-2`}
     >
       <div className="flex items-center gap-2">
         {icon}
-        <div className="text-sm text-foreground line-clamp-1">{label}</div>
+        <div className="flex items-center gap-1">
+          <div className="text-sm text-foreground line-clamp-1">{label}</div>
+          <DescriptionTip description={description} />
+        </div>
       </div>
       <Dropdown>
         <Button variant="tertiary" size="sm" className="text-muted h-8">
@@ -127,14 +158,17 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
   );
 }
 
-export function GroupItem({ label, icon, settingName, settingValue, options }) {
+export function GroupItem({ label, icon, settingName, settingValue, options, description }) {
   return (
     <div
       className={`flex justify-between items-center gap-2 ${bgColor} px-2.5 h-12`}
     >
       <div className="flex items-center gap-2">
         {icon}
-        <div className="text-sm text-foreground">{label}</div>
+        <div className="flex items-center gap-1">
+          <div className="text-sm text-foreground">{label}</div>
+          <DescriptionTip description={description} />
+        </div>
       </div>
       <Tabs
         aria-label={settingName}

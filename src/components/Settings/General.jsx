@@ -115,6 +115,7 @@ export default function General() {
         <Separator />
         <SwitchItem
           label={t("settings.general.showUnreadByDefault")}
+          description={t("settings.general.showUnreadByDefaultDescription")}
           icon={
             <SettingIcon variant="amber">
               <CircleDot className="p-1 fill-current" />
