@@ -201,10 +201,10 @@ export default function ActionButtons() {
               variant="ghost"
               isIconOnly
             >
-              {$activeArticle?.status === "read" ? (
-                <Circle className="size-4 text-muted p-0.5" />
-              ) : (
+              {$activeArticle?.status === "unread" ? (
                 <CircleDot className="size-4 text-muted p-0.5 fill-current" />
+              ) : (
+                <Circle className="size-4 text-muted p-0.5" />
               )}
             </Button>
             <Tooltip.Content>
