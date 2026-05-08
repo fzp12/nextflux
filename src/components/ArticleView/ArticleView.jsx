@@ -151,7 +151,6 @@ const ArticleView = () => {
 
   // 文章详情内容（移动端和桌面端共享）
   const renderArticleContent = () => {
-    if (!$activeArticle) return null;
     return (
       <>
         <ActionButtons />
@@ -236,7 +235,7 @@ const ArticleView = () => {
                   textAlign: alignJustify ? "justify" : "left",
                 }}
               >
-                {parse($activeArticle?.content || "", {
+                {parse($activeArticle?.content, {
                   replace(domNode) {
                     if (domNode.type === "tag" && domNode.name === "img") {
                       return <ArticleImage imgNode={domNode} />;
@@ -348,6 +347,7 @@ const ArticleView = () => {
         <Button className="hidden" />
         <Drawer.Backdrop
           isOpen={!!articleId}
+          isDismissable={false}
           onOpenChange={(open) => {
             if (!open) navigate(-1);
           }}
@@ -380,7 +380,7 @@ const ArticleView = () => {
           key={articleId ? "content" : "empty"}
           className={cn(
             "flex-1 p-0 h-screen static inset-0 z-20",
-            !articleId ? "hidden" : "",
+            !articleId ? "flex-1" : "",
             floatingSidebar ? "" : "pr-2 py-2",
           )}
           initial={
