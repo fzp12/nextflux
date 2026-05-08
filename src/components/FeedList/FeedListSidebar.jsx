@@ -34,8 +34,10 @@ const FeedListSidebar = () => {
   const { showHiddenFeeds, floatingSidebar } = useStore(settingsState);
   const { setOpenMobile } = useSidebar();
   const { articleId } = useParams();
-  const { isMobile } = useIsMobile();
+  const { isMobile, isMedium } = useIsMobile();
   const navigate = useNavigate();
+  // 判断是否在移动端且正在查看文章详情
+  const isArticleDetailOpen = isMedium && !!articleId;
   const basePath = window.location.pathname.split("/article/")[0];
   useSwipeGesture({
     onSwipeRight: () => {
@@ -59,7 +61,7 @@ const FeedListSidebar = () => {
   return (
     <Sidebar
       variant={floatingSidebar ? "floating" : "sidebar"}
-      className="sidebar"
+      className={`sidebar ${isArticleDetailOpen ? "sidebar-shifted" : ""}`}
     >
       <SidebarHeader className="sidebar-header standalone:pt-safe-or-2">
         <SidebarMenu>

@@ -216,3 +216,31 @@
     z-index: 2;
   }
 }
+
+/* iOS 风格文章列表移动动画 */
+.main-content > div:first-child {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, filter, background-color;
+}
+
+.article-list-shifted {
+  transform: translateX(-100px);
+  background-color: var(--background);
+  filter: brightness(0.7);
+}
+
+/* 侧边栏动画 */
+.sidebar {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: none;
+}
+
+.sidebar-shifted.sidebar {
+  transform: translateX(-100px);
+  filter: brightness(0.7);
+  background-color: var(--background);
+}

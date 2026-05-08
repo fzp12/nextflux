@@ -26,6 +26,7 @@ import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { getArticleById } from "@/db/storage";
 import Attachments from "@/components/ArticleView/components/Attachments.jsx";
 import AISummary from "@/components/ArticleView/components/AISummary.jsx";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ArticleView = () => {
   const { t } = useTranslation();
@@ -47,6 +48,7 @@ const ArticleView = () => {
   const { lightTheme } = useStore(themeState);
   const $currentThemeMode = useStore(currentThemeMode);
   const scrollAreaRef = useRef(null);
+  const { isMedium } = useIsMobile();
   // 判断当前是否实际使用了stone主题
   const isStoneTheme = () => {
     return lightTheme === "stone" && $currentThemeMode === "light";
@@ -141,7 +143,7 @@ const ArticleView = () => {
 
   return (
     <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
-      <AnimatePresence mode="popLayout" initial={false}>
+      <AnimatePresence mode={isMedium ? "wait" : "popLayout"} initial={false}>
         <motion.div
           key={articleId ? "content" : "empty"}
           className={cn(
@@ -150,13 +152,17 @@ const ArticleView = () => {
             floatingSidebar ? "" : "md:pr-2 md:py-2",
           )}
           initial={
-            articleId ? { opacity: 1, x: 40 } : { opacity: 0, x: 0, scale: 0.8 }
+            articleId
+              ? { opacity: 1, x: "100%" }
+              : { opacity: 0, x: 0, scale: 0.8 }
           }
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={
-            articleId
-              ? { opacity: 0, x: 40, scale: 1 }
-              : { opacity: 0, x: 0, scale: 0.8 }
+            !articleId && isMedium
+              ? false
+              : articleId
+                ? { opacity: 1, x: "100%", scale: 1 }
+                : { opacity: 0, x: 0, scale: 0.8 }
           }
           transition={{
             duration: 0.5,
