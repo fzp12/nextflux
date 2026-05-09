@@ -72,7 +72,7 @@ export const SliderItem = ({
           <Slider.Output className="text-muted" />
           <Slider.Track className="h-1.5 mt-0.5">
             <Slider.Fill />
-            <Slider.Thumb className="bg-transparent" />
+            <Slider.Thumb className="bg-transparent after:rounded-full" />
           </Slider.Track>
         </Slider>
       </div>
@@ -105,15 +105,22 @@ export const SwitchItem = ({
         isDisabled={disabled}
         onChange={(value) => updateSettings({ [settingName]: value })}
       >
-        <Switch.Control>
-          <Switch.Thumb />
+        <Switch.Control className="rounded-full">
+          <Switch.Thumb className="rounded-full" />
         </Switch.Control>
       </Switch>
     </div>
   );
 };
 
-export function SelItem({ label, icon, settingName, settingValue, options, description }) {
+export function SelItem({
+  label,
+  icon,
+  settingName,
+  settingValue,
+  options,
+  description,
+}) {
   return (
     <div
       className={`flex justify-between items-center gap-2 ${bgColor} px-2.5 py-2`}
@@ -158,7 +165,14 @@ export function SelItem({ label, icon, settingName, settingValue, options, descr
   );
 }
 
-export function GroupItem({ label, icon, settingName, settingValue, options, description }) {
+export function GroupItem({
+  label,
+  icon,
+  settingName,
+  settingValue,
+  options,
+  description,
+}) {
   return (
     <div
       className={`flex justify-between items-center gap-2 ${bgColor} px-2.5 h-12`}

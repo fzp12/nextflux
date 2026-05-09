@@ -165,7 +165,7 @@
   }
   .button--primary,
   .button--danger {
-    @apply shadow-custom-btn relative before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:opacity-5 before:bg-gradient-to-b before:from-white before:to-white/50;
+    @apply shadow-custom-btn relative before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:opacity-5 before:bg-linear-to-b before:from-white before:to-white/50;
   }
   .button--primary {
     @apply border border-accent;
@@ -233,10 +233,10 @@
 
 /* 侧边栏动画 */
 .sidebar {
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: none;
+  transition-property: transform, filter, background-color, left, width;
+  transition-duration: 0.5s, 0.5s, 0.5s, 0.2s, 0.2s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0, 0, 1, 1), cubic-bezier(0, 0, 1, 1);
+  transform: translateX(0);
 }
 
 .sidebar-shifted.sidebar {
