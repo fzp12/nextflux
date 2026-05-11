@@ -284,6 +284,17 @@ const ArticleView = () => {
                     >
                       {parse($activeArticle?.content, {
                         replace(domNode) {
+                          // 辅助函数：检查节点是否包含需要转为 block 的内容（图片等）
+                          const hasBlockContent = (node) => {
+                            if (!node.children) return false;
+                            return node.children.some((child) => {
+                              if (child.type !== "tag") return false;
+                              if (child.name === "img") return true;
+                              if (child.name === "a") return hasBlockContent(child);
+                              return false;
+                            });
+                          };
+
                           if (
                             domNode.type === "tag" &&
                             domNode.name === "img"
@@ -294,6 +305,15 @@ const ArticleView = () => {
                             return domNode.children.length > 0
                               ? handleLinkWithImg(domNode)
                               : domNode;
+                          }
+                          // 将包含图片的 <p> 转为 <div>，避免 <div> 嵌套在 <p> 中
+                          if (
+                            domNode.type === "tag" &&
+                            domNode.name === "p" &&
+                            hasBlockContent(domNode)
+                          ) {
+                            domNode.name = "div";
+                            return domNode;
                           }
                           if (
                             domNode.type === "tag" &&

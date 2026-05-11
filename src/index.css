@@ -179,6 +179,9 @@
   .button--icon-only {
     @apply rounded-full;
   }
+  .tooltip {
+    @apply shadow-custom-md py-1 rounded-full;
+  }
 
   /* Page Slide Transition for Settings Drawer */
   .t-settings-slide {

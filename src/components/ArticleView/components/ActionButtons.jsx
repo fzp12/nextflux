@@ -168,7 +168,10 @@ export default function ActionButtons() {
           classNames={{ content: "shadow-custom!" }}
         >
           <CloseButton onPress={handleClose} className="mx-2" />
-          <Tooltip.Content>{t("common.close")}</Tooltip.Content>
+          <Tooltip.Content showArrow>
+            <Tooltip.Arrow />
+            {t("common.close")}
+          </Tooltip.Content>
         </Tooltip>
         <div className="gap-1 hidden md:flex">
           <Tooltip delay={0}>
@@ -176,22 +179,30 @@ export default function ActionButtons() {
               onPress={handlePrevious}
               isDisabled={currentIndex <= 0}
               isIconOnly
+              size="sm"
               variant="ghost"
             >
               <ArrowLeft className="h-4 w-4 text-muted" />
             </Button>
-            <Tooltip.Content>{t("common.previous")}</Tooltip.Content>
+            <Tooltip.Content showArrow>
+              <Tooltip.Arrow />
+              {t("common.previous")}
+            </Tooltip.Content>
           </Tooltip>
           <Tooltip delay={0}>
             <Button
               onPress={handleNext}
               isDisabled={currentIndex >= $articles.length - 1}
               isIconOnly
+              size="sm"
               variant="ghost"
             >
               <ArrowRight className="h-4 w-4 text-muted" />
             </Button>
-            <Tooltip.Content>{t("common.next")}</Tooltip.Content>
+            <Tooltip.Content showArrow>
+              <Tooltip.Arrow />
+              {t("common.next")}
+            </Tooltip.Content>
           </Tooltip>
         </div>
         <div className="flex gap-1 ml-auto">
@@ -200,6 +211,7 @@ export default function ActionButtons() {
               onPress={() => handleMarkStatus($activeArticle)}
               variant="ghost"
               isIconOnly
+              size="sm"
             >
               {$activeArticle?.status === "unread" ? (
                 <CircleDot className="size-4 text-muted p-0.5 fill-current" />
@@ -207,7 +219,8 @@ export default function ActionButtons() {
                 <Circle className="size-4 text-muted p-0.5" />
               )}
             </Button>
-            <Tooltip.Content>
+            <Tooltip.Content showArrow>
+              <Tooltip.Arrow />
               {$activeArticle?.status === "read"
                 ? t("common.unread")
                 : t("common.read")}
@@ -218,6 +231,7 @@ export default function ActionButtons() {
               ref={buttonRef}
               variant="ghost"
               isIconOnly
+              size="sm"
               onPress={() => {
                 $activeArticle?.starred === 0 && Confetti(buttonRef);
                 handleToggleStar($activeArticle);
@@ -227,7 +241,8 @@ export default function ActionButtons() {
                 className={`size-4 text-muted ${$activeArticle?.starred === 1 ? "fill-current" : ""}`}
               />
             </Button>
-            <Tooltip.Content>
+            <Tooltip.Content showArrow>
+              <Tooltip.Arrow />
               {$activeArticle?.starred === 1
                 ? t("common.unstar")
                 : t("common.star")}
@@ -238,6 +253,7 @@ export default function ActionButtons() {
               <Button
                 variant="ghost"
                 isIconOnly
+                size="sm"
                 onPress={handleSaveToThirdParty}
                 isPending={saveLoading}
               >
@@ -247,7 +263,8 @@ export default function ActionButtons() {
                   <CloudUpload className="size-4 text-muted" />
                 )}
               </Button>
-              <Tooltip.Content>
+              <Tooltip.Content showArrow>
+                <Tooltip.Arrow />
                 {t("articleView.saveToThirdParty")}
               </Tooltip.Content>
             </Tooltip>
@@ -258,6 +275,7 @@ export default function ActionButtons() {
                 onPress={handleAISummarize}
                 variant="ghost"
                 isIconOnly
+                size="sm"
                 isPending={currentSummaryState?.loading}
               >
                 {currentSummaryState?.loading ? (
@@ -268,7 +286,10 @@ export default function ActionButtons() {
                   />
                 )}
               </Button>
-              <Tooltip.Content>{t("articleView.aiSummarize")}</Tooltip.Content>
+              <Tooltip.Content showArrow>
+                <Tooltip.Arrow />
+                {t("articleView.aiSummarize")}
+              </Tooltip.Content>
             </Tooltip>
           )}
           <Tooltip delay={0}>
@@ -276,6 +297,7 @@ export default function ActionButtons() {
               onPress={() => handleToggleContent($activeArticle)}
               variant="ghost"
               isIconOnly
+              size="sm"
               isPending={fetchLoading}
             >
               {fetchLoading ? (
@@ -291,17 +313,21 @@ export default function ActionButtons() {
                 />
               )}
             </Button>
-            <Tooltip.Content>
+            <Tooltip.Content showArrow>
+              <Tooltip.Arrow />
               {$activeArticle?.shownOriginal
                 ? t("articleView.showSummary")
                 : t("articleView.getFullText")}
             </Tooltip.Content>
           </Tooltip>
           <Tooltip delay={0}>
-            <Button variant="ghost" isIconOnly onPress={handleShare}>
+            <Button variant="ghost" isIconOnly size="sm" onPress={handleShare}>
               <Share className="size-4 text-muted" />
             </Button>
-            <Tooltip.Content>{t("common.share")}</Tooltip.Content>
+            <Tooltip.Content showArrow>
+              <Tooltip.Arrow />
+              {t("common.share")}
+            </Tooltip.Content>
           </Tooltip>
         </div>
       </div>
