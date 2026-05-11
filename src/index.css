@@ -161,7 +161,7 @@
 
 @layer components {
   .dropdown__popover {
-    @apply min-w-40 shadow-custom-md bg-overlay/90 backdrop-blur-sm;
+    @apply min-w-40 shadow-custom-md bg-overlay/90 backdrop-blur-sm max-h-80!;
   }
   .button--primary,
   .button--danger {
@@ -233,6 +233,7 @@
   background-color: var(--background);
   filter: brightness(0.7);
 }
+
 
 /* 侧边栏动画 */
 .sidebar {
