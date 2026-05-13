@@ -95,7 +95,7 @@ export const summarizeArticleStream = async (article, { onChunk, onDone, onError
             content: `Please summarize this article:\n\nTitle: ${title}\n\n${plainText.slice(0, 8000)}`,
           },
         ],
-        max_tokens: 500,
+        max_tokens: 2000,
         temperature: 0.3,
       }),
     });
@@ -116,27 +116,42 @@ export const summarizeArticleStream = async (article, { onChunk, onDone, onError
   const pushChunk = createThinkFilter(onChunk);
 
   try {
+    // 处理 SSE 数据行的辅助函数
+    const processLine = (line) => {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed === "data: [DONE]") return;
+      if (!trimmed.startsWith("data: ")) return;
+
+      try {
+        const json = JSON.parse(trimmed.slice(6));
+        // 忽略 reasoning_content（DeepSeek 原生 API 的推理字段）
+        const delta = json.choices?.[0]?.delta?.content;
+        if (delta) pushChunk(delta);
+      } catch {
+        // 跳过解析失败的行
+      }
+    };
+
     while (true) {
       const { done, value } = await reader.read();
-      if (done) break;
 
-      sseBuffer += decoder.decode(value, { stream: true });
+      if (value) {
+        sseBuffer += decoder.decode(value, { stream: true });
+      }
+
+      if (done) {
+        // 流结束，处理 sseBuffer 中剩余的所有数据
+        if (sseBuffer.trim()) {
+          processLine(sseBuffer);
+        }
+        break;
+      }
+
       const lines = sseBuffer.split("\n");
       sseBuffer = lines.pop(); // 保留最后一个不完整行
 
       for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed === "data: [DONE]") continue;
-        if (!trimmed.startsWith("data: ")) continue;
-
-        try {
-          const json = JSON.parse(trimmed.slice(6));
-          // 忽略 reasoning_content（DeepSeek 原生 API 的推理字段）
-          const delta = json.choices?.[0]?.delta?.content;
-          if (delta) pushChunk(delta);
-        } catch {
-          // 跳过解析失败的行
-        }
+        processLine(line);
       }
     }
     onDone();
