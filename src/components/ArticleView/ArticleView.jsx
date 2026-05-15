@@ -26,6 +26,7 @@ import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { getArticleById } from "@/db/storage";
 import Attachments from "@/components/ArticleView/components/Attachments.jsx";
 import AISummary from "@/components/ArticleView/components/AISummary.jsx";
+import Iframe from "@/components/ArticleView/components/Iframe.jsx";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const ArticleView = () => {
@@ -319,34 +320,7 @@ const ArticleView = () => {
                             domNode.type === "tag" &&
                             domNode.name === "iframe"
                           ) {
-                            const { src } = domNode.attribs;
-                            domNode.attribs = {
-                              ...domNode.attribs,
-                              referrerpolicy: "strict-origin-when-cross-origin",
-                            };
-
-                            // 判断是否为 Bilibili iframe
-                            const isBilibili = src && src.includes("bilibili");
-
-                            // 如果不是 YouTube iframe,直接返回原始节点
-                            if (!isBilibili) {
-                              return domNode;
-                            }
-
-                            // 如果是 Bilibili iframe, 组装新的iframe
-                            if (isBilibili) {
-                              // 获取bilibili视频 bvid
-                              const bvid = src.match(/bvid=([^&]+)/)?.[1];
-                              if (bvid) {
-                                return (
-                                  <iframe
-                                    src={`//bilibili.com/blackboard/html5mobileplayer.html?isOutside=true&bvid=${bvid}&p=1&hideCoverInfo=1&danmaku=0`}
-                                    allowFullScreen={true}
-                                  ></iframe>
-                                );
-                              }
-                              return domNode;
-                            }
+                            return <Iframe domNode={domNode} />;
                           }
                           if (
                             domNode.type === "tag" &&
